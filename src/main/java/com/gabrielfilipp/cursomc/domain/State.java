@@ -8,29 +8,28 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import javax.persistence.OneToMany;
 
 @Entity
-public class Product implements Serializable {
+public class State implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String name;
-	private Double price;
+	
+	@OneToMany(mappedBy="state")
+	private List<City> cities = new ArrayList<>();
 
-	@JsonBackReference
-	@ManyToMany
-	@JoinTable(name = "PRODUCT_CATEGORY", 
-		joinColumns = @JoinColumn(name = "product_id"), 
-		inverseJoinColumns = @JoinColumn(name = "categorie_id")
-			)
-	private List<Categorie> categories = new ArrayList<>();
+	public State() {
+	}
+
+	public State(Integer id, String name) {
+		super();
+		this.id = id;
+		this.name = name;
+	}
 
 	public Integer getId() {
 		return id;
@@ -48,35 +47,12 @@ public class Product implements Serializable {
 		this.name = name;
 	}
 
-	public Double getPrice() {
-		return price;
+	public List<City> getCities() {
+		return cities;
 	}
 
-	public void setPrice(Double price) {
-		this.price = price;
-	}
-
-	public List<Categorie> getCategories() {
-		return categories;
-	}
-
-	public void setCategories(List<Categorie> categories) {
-		this.categories = categories;
-	}
-
-	public Product() {
-	}
-
-	public Product(Integer id, String name, Double price) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.price = price;
-	}
-
-	@Override
-	public String toString() {
-		return "Product [id=" + id + ", name=" + name + ", price=" + price + "]";
+	public void setCities(List<City> cities) {
+		this.cities = cities;
 	}
 
 	@Override
@@ -95,7 +71,7 @@ public class Product implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Product other = (Product) obj;
+		State other = (State) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
