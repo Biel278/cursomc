@@ -1,6 +1,5 @@
 package com.gabrielfilipp.cursomc;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +11,6 @@ import com.gabrielfilipp.cursomc.domain.Categorie;
 import com.gabrielfilipp.cursomc.domain.Product;
 import com.gabrielfilipp.cursomc.repository.CategorieRepository;
 import com.gabrielfilipp.cursomc.repository.ProductRepository;
-import com.gabrielfilipp.cursomc.resources.CategorieResource;
 
 @SpringBootApplication
 public class CursomcApplication implements CommandLineRunner {
