@@ -19,12 +19,14 @@ public class Categorie implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+	
 	private String name;
 	
 	@JsonManagedReference
 	@ManyToMany(mappedBy="categories")
 	private List<Product> products = new ArrayList<>();
 
+	
 	public Categorie() {
 	}
 
@@ -63,6 +65,8 @@ public class Categorie implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((products == null) ? 0 : products.hashCode());
 		return result;
 	}
 
@@ -80,7 +84,19 @@ public class Categorie implements Serializable {
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		if (products == null) {
+			if (other.products != null)
+				return false;
+		} else if (!products.equals(other.products))
+			return false;
 		return true;
 	}
+
+	
 
 }

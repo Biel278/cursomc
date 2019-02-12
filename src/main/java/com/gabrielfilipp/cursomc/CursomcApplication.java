@@ -7,12 +7,17 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import com.gabrielfilipp.cursomc.domain.Address;
 import com.gabrielfilipp.cursomc.domain.Categorie;
 import com.gabrielfilipp.cursomc.domain.City;
+import com.gabrielfilipp.cursomc.domain.Client;
 import com.gabrielfilipp.cursomc.domain.Product;
 import com.gabrielfilipp.cursomc.domain.State;
+import com.gabrielfilipp.cursomc.domain.enums.TypeClient;
+import com.gabrielfilipp.cursomc.repository.AddressRepository;
 import com.gabrielfilipp.cursomc.repository.CategorieRepository;
 import com.gabrielfilipp.cursomc.repository.CityRepository;
+import com.gabrielfilipp.cursomc.repository.ClientRepository;
 import com.gabrielfilipp.cursomc.repository.ProductRepository;
 import com.gabrielfilipp.cursomc.repository.StateRepository;
 
@@ -34,6 +39,14 @@ public class CursomcApplication implements CommandLineRunner {
 
 	@Autowired 
 	private CityRepository repositoryC;
+	
+	@Autowired
+	private AddressRepository repositoryAdr;
+	
+	@Autowired
+	private ClientRepository repositoryCli;
+		
+	
 	
 	@Override
 	public void run(String... args) throws Exception {
@@ -70,7 +83,19 @@ public class CursomcApplication implements CommandLineRunner {
 		
 		repositorySta.saveAll(Arrays.asList(sta1,sta2));
 		repositoryC.saveAll(Arrays.asList(c1,c2,c3));
+		
+		
+		Client cli1 = new Client(null, "Maria Silva", "maria@gmail.com", "36378912377", TypeClient.PERSONFISICA);
+		
+		cli1.getTelefones().addAll(Arrays.asList("27363323","93838393"));
+		
+		Address adr1 = new Address(null, "Rua Flores", "300", "Apto 303", "Jardim", "38220834", cli1, c1);
+		Address adr2 = new Address(null, "Avenida Matos", "105", "Sala 800", "Centro", "38777012", cli1, c2);
+		
+		cli1.getAddress().addAll(Arrays.asList(adr1,adr2));
 
+		repositoryCli.saveAll(Arrays.asList(cli1));
+		repositoryAdr.saveAll(Arrays.asList(adr1,adr2));
 	}
 
 }

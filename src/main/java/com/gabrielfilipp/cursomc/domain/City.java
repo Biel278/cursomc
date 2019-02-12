@@ -16,11 +16,13 @@ public class City implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
+
 	private String name;
 	
 	@ManyToOne
 	@JoinColumn(name ="state_id")
 	private State state;
+	
 	
 	public City() {
 	}

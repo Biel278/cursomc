@@ -17,11 +17,13 @@ public class State implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
+	
 	private String name;
 	
 	@OneToMany(mappedBy="state")
 	private List<City> cities = new ArrayList<>();
 
+	
 	public State() {
 	}
 
