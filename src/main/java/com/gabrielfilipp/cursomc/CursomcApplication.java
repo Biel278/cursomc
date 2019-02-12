@@ -77,7 +77,7 @@ public class CursomcApplication implements CommandLineRunner {
 		City c1 = new City(null, "Uberlândia", sta1);
 		City c2 = new City(null, "São Paulo", sta2);
 		City c3 = new City(null, "Campinas", sta2);
-
+		
 		sta1.getCities().addAll(Arrays.asList(c1));
 		sta2.getCities().addAll(Arrays.asList(c2, c3));
 		
@@ -86,13 +86,12 @@ public class CursomcApplication implements CommandLineRunner {
 		
 		
 		Client cli1 = new Client(null, "Maria Silva", "maria@gmail.com", "36378912377", TypeClient.PERSONFISICA);
-		
-		cli1.getTelefones().addAll(Arrays.asList("27363323","93838393"));
-		
+				
 		Address adr1 = new Address(null, "Rua Flores", "300", "Apto 303", "Jardim", "38220834", cli1, c1);
 		Address adr2 = new Address(null, "Avenida Matos", "105", "Sala 800", "Centro", "38777012", cli1, c2);
 		
 		cli1.getAddress().addAll(Arrays.asList(adr1,adr2));
+		cli1.getTelefones().addAll(Arrays.asList("27363323","93838393"));
 
 		repositoryCli.saveAll(Arrays.asList(cli1));
 		repositoryAdr.saveAll(Arrays.asList(adr1,adr2));

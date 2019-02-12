@@ -1,6 +1,7 @@
 package com.gabrielfilipp.cursomc.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -30,12 +31,12 @@ public class Client implements Serializable {
 	private String cpfOrCnpj;
 
 	private Integer typeclient;
-	
-	@OneToMany(mappedBy ="client")	
-	private List<Address> address;
+		
+	@OneToMany(mappedBy ="client")
+	private List<Address> address = new ArrayList<>();
 	
 	@ElementCollection
-	@CollectionTable(name="TELEFONE")
+	@CollectionTable(name="TELEFONES")
 	private Set<String> telefones = new HashSet<>();
 
 
