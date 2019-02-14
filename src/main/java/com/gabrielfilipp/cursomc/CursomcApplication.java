@@ -1,5 +1,6 @@
 package com.gabrielfilipp.cursomc;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,13 +12,19 @@ import com.gabrielfilipp.cursomc.domain.Address;
 import com.gabrielfilipp.cursomc.domain.Categorie;
 import com.gabrielfilipp.cursomc.domain.City;
 import com.gabrielfilipp.cursomc.domain.Client;
+import com.gabrielfilipp.cursomc.domain.Payment;
+import com.gabrielfilipp.cursomc.domain.PaymentBoleto;
+import com.gabrielfilipp.cursomc.domain.PaymentCard;
+import com.gabrielfilipp.cursomc.domain.Pedido;
 import com.gabrielfilipp.cursomc.domain.Product;
 import com.gabrielfilipp.cursomc.domain.State;
+import com.gabrielfilipp.cursomc.domain.enums.StatusPayment;
 import com.gabrielfilipp.cursomc.domain.enums.TypeClient;
 import com.gabrielfilipp.cursomc.repository.AddressRepository;
 import com.gabrielfilipp.cursomc.repository.CategorieRepository;
 import com.gabrielfilipp.cursomc.repository.CityRepository;
 import com.gabrielfilipp.cursomc.repository.ClientRepository;
+import com.gabrielfilipp.cursomc.repository.PedidoRepository;
 import com.gabrielfilipp.cursomc.repository.ProductRepository;
 import com.gabrielfilipp.cursomc.repository.StateRepository;
 
@@ -33,21 +40,22 @@ public class CursomcApplication implements CommandLineRunner {
 
 	@Autowired
 	private ProductRepository repositoryPro;
-	
+
 	@Autowired
 	private StateRepository repositorySta;
 
-	@Autowired 
+	@Autowired
 	private CityRepository repositoryC;
-	
+
 	@Autowired
 	private AddressRepository repositoryAdr;
-	
+
 	@Autowired
 	private ClientRepository repositoryCli;
-		
-	
-	
+
+	@Autowired
+	private PedidoRepository repositoryPed;
+
 	@Override
 	public void run(String... args) throws Exception {
 		Categorie cat1 = new Categorie(null, "Informática");
@@ -77,25 +85,40 @@ public class CursomcApplication implements CommandLineRunner {
 		City c1 = new City(null, "Uberlândia", sta1);
 		City c2 = new City(null, "São Paulo", sta2);
 		City c3 = new City(null, "Campinas", sta2);
-		
+
 		sta1.getCities().addAll(Arrays.asList(c1));
 		sta2.getCities().addAll(Arrays.asList(c2, c3));
-		
-		repositorySta.saveAll(Arrays.asList(sta1,sta2));
-		repositoryC.saveAll(Arrays.asList(c1,c2,c3));
-		
-		
+
+		repositorySta.saveAll(Arrays.asList(sta1, sta2));
+		repositoryC.saveAll(Arrays.asList(c1, c2, c3));
+
 		Client cli1 = new Client(null, "Maria Silva", "maria@gmail.com", "36378912377", TypeClient.PERSONFISICA);
 
-		cli1.getTelefones().addAll(Arrays.asList("27363323","93838393"));
-				
+		cli1.getTelefones().addAll(Arrays.asList("27363323", "93838393"));
+
 		Address adr1 = new Address(null, "Rua Flores", "300", "Apto 303", "Jardim", "38220834", cli1, c1);
 		Address adr2 = new Address(null, "Avenida Matos", "105", "Sala 800", "Centro", "38777012", cli1, c2);
-		
-		cli1.getAddress().addAll(Arrays.asList(adr1,adr2));
+
+		cli1.getAddress().addAll(Arrays.asList(adr1, adr2));
 
 		repositoryCli.saveAll(Arrays.asList(cli1));
-		repositoryAdr.saveAll(Arrays.asList(adr1,adr2));
+		repositoryAdr.saveAll(Arrays.asList(adr1, adr2));
+
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+
+		Pedido ped1 = new Pedido(null, sdf.parse("30/09/2017 10:32"), cli1, adr1);
+		Pedido ped2 = new Pedido(null, sdf.parse("10/10/2017 19:35"), cli1, adr2);
+
+		Payment pay1 = new PaymentCard(null, StatusPayment.PAY, ped1, 6);
+		ped1.setPayment(pay1);
+
+		Payment pay2 = new PaymentBoleto(null, StatusPayment.PENDENT, ped2, sdf.parse("20/10/2017 00:00"), null);
+		ped2.setPayment(pay2);
+
+		cli1.getPedidos().addAll(Arrays.asList(ped1, ped2));
+
+		repositoryPed.saveAll(Arrays.asList(ped1, ped2));
+
 	}
 
 }

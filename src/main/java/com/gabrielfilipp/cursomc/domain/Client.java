@@ -32,19 +32,20 @@ public class Client implements Serializable {
 	private String cpfOrCnpj;
 
 	private Integer typeclient;
-		
+
 	@JsonManagedReference
-	@OneToMany(mappedBy ="client")
+	@OneToMany(mappedBy = "client")
 	private List<Address> address = new ArrayList<>();
-	
+
 	@ElementCollection
-	@CollectionTable(name="TELEFONES")
+	@CollectionTable(name = "TELEFONES")
 	private Set<String> telefones = new HashSet<>();
 
+	@OneToMany(mappedBy="client")
+	private List<Pedido> pedidos = new ArrayList<>();
 
 	public Client() {
 	}
-
 
 	public Client(Integer id, String name, String email, String cpfOrCnpj, TypeClient typeclient) {
 		super();
@@ -55,82 +56,71 @@ public class Client implements Serializable {
 		this.typeclient = typeclient.getCod();
 	}
 
-
 	public Integer getId() {
 		return id;
 	}
-
 
 	public void setId(Integer id) {
 		this.id = id;
 	}
 
-
 	public String getName() {
 		return name;
 	}
-
 
 	public void setName(String name) {
 		this.name = name;
 	}
 
-
 	public String getEmail() {
 		return email;
 	}
-
 
 	public void setEmail(String email) {
 		this.email = email;
 	}
 
-
 	public String getCpfOrCnpj() {
 		return cpfOrCnpj;
 	}
-
 
 	public void setCpfOrCnpj(String cpfOrCnpj) {
 		this.cpfOrCnpj = cpfOrCnpj;
 	}
 
-
 	public TypeClient getTypeclient() {
 		return TypeClient.toEnum(typeclient);
 	}
-
 
 	public void setTypeclient(TypeClient typeclient) {
 		this.typeclient = typeclient.getCod();
 	}
 
-
 	public List<Address> getAddress() {
 		return address;
 	}
-
 
 	public void setAddress(List<Address> address) {
 		this.address = address;
 	}
 
-
 	public Set<String> getTelefones() {
 		return telefones;
 	}
-
 
 	public void setTelefones(Set<String> telefones) {
 		this.telefones = telefones;
 	}
 
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
+	public List<Pedido> getPedidos() {
+		return pedidos;
 	}
 
+	public void setPedidos(List<Pedido> pedidos) {
+		this.pedidos = pedidos;
+	}
 
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -138,7 +128,6 @@ public class Client implements Serializable {
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
-
 
 	@Override
 	public boolean equals(Object obj) {
@@ -156,9 +145,5 @@ public class Client implements Serializable {
 			return false;
 		return true;
 	}
-	
-	
-
-
 
 }
